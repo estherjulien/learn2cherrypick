@@ -1,10 +1,16 @@
 import numpy as np
 import random
 import networkx as nx
-import sys
 
 '''
-code from Remie, and distances extension from Celine
+Code for generating ZODS network
+- Apdated from Remie Janssen's code for the paper (with help of Celine Scornavacca for distances on arcs):
+Janssen, R., & Liu, P. (2021). Comparing the topology of phylogenetic network generators. 
+Journal of Bioinformatics and Computational Biology, 19(06), 2140012.
+
+- Originally, the method is from the paper:
+Zhang, C., Ogilvie, H.A., Drummond, A.J., Stadler, T.: Bayesian inference of species networks from multilocus
+sequence data. Molecular biology and evolution 35(2), 504–517 (2018)
 '''
 
 

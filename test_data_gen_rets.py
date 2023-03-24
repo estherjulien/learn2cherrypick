@@ -12,6 +12,19 @@ import pickle
 import time
 import sys
 
+'''
+Code used for generating test instances. This file consists of three functions:
+- make_test_normal:     generates NORMAL test instances
+- make_test_lgt:        generates LGT test instances
+- make_test_zods:       generates ZODS test instances
+
+RUN in terminal:
+python test_data_gen_rets.py <num. instances> <bool (0/1) for NORMAL instances> <bool (0/1) for LGT instances> 
+
+EXAMPLE:
+python test_data_gen_rets.py 16 0 1 0
+'''
+
 
 def make_test_normal(net_num, l, ret, missing_leaves=0, print_failed=False):
     network_gen = "normal"

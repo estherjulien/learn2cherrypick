@@ -1,5 +1,9 @@
 import numpy as np
 
+'''
+Code for transforming networkx Digraph into newick format
+'''
+
 
 def sub_tree_to_newick(G, root=None):
     subgs = []

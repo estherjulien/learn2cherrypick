@@ -24,7 +24,7 @@ net_to_reduced_trees:   - 1. Take all displayed trees from network, and set this
                         - 3: Store all labelled data
                         
 RUN in terminal:
-python train_data_gen.py <number of networks> <maxL>
+python train_data_gen.py <number of networks> <maxL> <bool (0/1) for data on NORMAL instances>
 maxL: maximum number of leaves per network
 EXAMPLE:
 python train_data_gen.py 10 20

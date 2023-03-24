@@ -22,15 +22,16 @@ Code consisting of main run file and two functions:
                                 4. TrivialRand
 
 RUN in terminal:
-python main_heuristic.py <instance num.> <ML model name> <leaf number> <bool (0/1) for exact input> <option>
-option: 
-if exact input = 0:
-    option = reticulation number
-else:
-    option = forest size
+python main_heuristic.py <instance id> <num. of leaves> <num. of reticulations> <tree set size> 
+                            <bool (0/1) for NORMAL instance> <bool (0/1) for ZODS instance>
+                            <missing leaves perc. in [0, 1)> <maxL> <number of networks for ML model>
+                            <bool (0/1) for ML trained on NORMAL data> <ML threshold in (0, 1), default=None>
+                                
+maxL: maximum number of leaves per network for training ML model
 EXAMPLE: 
-python main_heuristic.py 0 N10_maxL100_random_balanced 20 0 50
+python main_heuristic.py 0 20 10 50 0 0 0 (100) (50) 0
 '''
+# todo: check which network is updated
 
 
 def run_heuristic(tree_set=None, tree_set_newick=None, inst_num=0, repeats=1, time_limit=None,

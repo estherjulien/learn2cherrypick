@@ -4,7 +4,7 @@ import random
 
 
 '''
-Code for generating normal network
+Code for generating normal network based on LGT generator
 - Tree-child
 - No redundant arcs: If there is a directed path from u to v, the arc (u, v) is redundant.
 Willson, S. J. (2010). Properties of normal phylogenetic networks. Bulletin of mathematical biology, 72(2), 340-358.

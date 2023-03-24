@@ -9,9 +9,8 @@ import sys
 Main file for training random forest:
 
 RUN CODE:
-python main_learn.py <N number of networks> <bool (0/1) for balanced data> <maxL>
+python main_learn.py <N number of networks> <bool (0/1) for balanced data> <maxL> <bool (0/1) for NORMAL data>
 maxL: in the data set, maxL is the maximum number of leaves of an instance group.
-normal: bool. 1 if normal network, 0 if LGT network
 
 EXAMPLE: 
 python LearningCherries/main_learn.py 1000 1 100 1

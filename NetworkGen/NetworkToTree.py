@@ -1,10 +1,13 @@
-from Features import Features
 from CPH import *
 import networkx as nx
 import pandas as pd
 import numpy as np
 import itertools
 import copy
+
+'''
+Code for generating the displayed trees from a network
+'''
 
 
 # return reticulation nodes
