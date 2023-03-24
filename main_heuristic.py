@@ -5,6 +5,7 @@ import copy
 import sys
 import csv
 import warnings
+import os
 
 import CPH as CPH
 
@@ -252,6 +253,7 @@ def run_main(i, l, network_type, ret=None, forest_size=None, feat_imp_heur=False
             print(i, ml_ret, ml_triv_ret, ra_ret, tr_ret, ub_ret, ml_time)
 
     # SAVE DATAFRAMES
+    os.makedirs("data/results/inst_results", exist_ok=True)
     # scores
     score.dropna(axis=0, how="all").to_pickle(f"data/results/inst_results/heuristic_scores_{file_name}_{i}.pickle")
     # ml predictions

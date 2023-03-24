@@ -11,6 +11,7 @@ import numpy as np
 import pickle
 import time
 import sys
+import os
 
 '''
 Code used for generating test instances. This file consists of three functions:
@@ -85,6 +86,7 @@ def make_test_normal(net_num, l, ret, missing_leaves=0, print_failed=False):
                          dtype=float)
     output = {"net": net, "forest": tree_set, "metadata": metadata}
     save_map = "normal"
+    os.makedirs(f"data/test/{save_map}/instances", exist_ok=True)
 
     with open(
             f"AMBCode/Data/Test/{save_map}/instances/tree_data{tree_info}_{net_num}.pickle", "wb") as handle:
@@ -155,6 +157,7 @@ def make_test_lgt(net_num, l, ret, num_trees, missing_leaves, print_failed=False
                          dtype=float)
     output = {"net": net, "forest": tree_set, "metadata": metadata}
     save_map = "LGT"
+    os.makedirs(f"data/test/{save_map}/instances", exist_ok=True)
 
     with open(
             f"data/test/{save_map}/instances/tree_data{tree_info}_{net_num}.pickle", "wb") as handle:
@@ -215,6 +218,8 @@ def make_test_zods(net_num, l, ret, num_trees, missing_leaves, print_failed=Fals
                          dtype=float)
     output = {"net": net, "forest": tree_set, "metadata": metadata}
     save_map = "ZODS"
+
+    os.makedirs(f"data/test/{save_map}/instances", exist_ok=True)
 
     with open(
             f"data/test/{save_map}/instances/tree_data{tree_info}_{net_num}.pickle", "wb") as handle:

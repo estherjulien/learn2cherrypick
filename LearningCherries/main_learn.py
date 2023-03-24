@@ -4,6 +4,7 @@ import pandas as pd
 import pickle
 import time
 import sys
+import os
 
 '''
 Main file for training random forest:
@@ -80,9 +81,10 @@ if __name__ == "__main__":
 
     # TRAIN RF MODEL
     start_time = time.time()
+    os.makedirs("../data/RFModels", exist_ok=True)
     metadata[["acc_all", "acc_non_cher", "acc_cher", "acc_ret_cher", "acc_no_ret_cher"]] = train_cherries_rf(X_new,
                                                                                                              Y_new,
                                                                                                              name=data_set_string)
     print(f"RF train duration (normal): {np.round(time.time() - start_time, 3)}s")
     metadata["train_dur"] = time.time() - start_time
-    metadata.to_pickle(f"RFModelsLGT/model_metadata_{data_set_string}_debugged.pickle")
+    metadata.to_pickle(f"../data/RFModels/model_metadata_{data_set_string}_debugged.pickle")

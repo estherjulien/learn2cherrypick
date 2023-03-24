@@ -8,6 +8,8 @@ import numpy as np
 import pickle
 import time
 import sys
+import os
+
 
 '''
 Code used for generating train data.
@@ -98,6 +100,8 @@ def make_train_data(net_num=0, num_red=100, max_l=100, normal=True, save_network
                          index=metadata_index,
                          dtype=float)
     output = {"net": net, "X": X, "Y": Y, "metadata": metadata}
+    os.makedirs(f"data/train/inst_results", exist_ok=True)
+
     with open(
             f"data/train/inst_results/ML_tree_data{tree_info}_{net_num}.pickle", "wb") as handle:
         pickle.dump(output, handle)

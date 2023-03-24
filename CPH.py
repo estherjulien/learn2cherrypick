@@ -26,6 +26,7 @@ This script consists of 4 parts:
 ########                   HELP FUNCTIONS                      ########
 #######################################################################
 
+
 # Write length newick: convert ":" to "," and then evaluate as list of lists using ast.literal_eval
 # Then, in each list, the node is followed by the length of the incoming arc.
 # This only works as long as each branch has length and all internal nodes are labeled.

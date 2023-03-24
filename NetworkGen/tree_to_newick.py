@@ -1,5 +1,5 @@
 import numpy as np
-
+import os
 '''
 Code for transforming networkx Digraph into newick format
 '''
@@ -21,10 +21,11 @@ def sub_tree_to_newick(G, root=None):
 
 
 def tree_to_newick_fun(tree_set, net_num, network_gen="LGT", partial=False, tree_info=""):
+    os.makedirs(f"data/test/{network_gen}/newick", exist_ok=True)
     if partial:
-        file_name = f"AMBCode/Data/Test/{network_gen}/newick/tree_set_newick{tree_info}_part_{net_num}.txt"
+        file_name = f"data/test/{network_gen}/newick/tree_set_newick{tree_info}_part_{net_num}.txt"
     else:
-        file_name = f"AMBCode/Data/Test/{network_gen}/newick/tree_set_newick{tree_info}_{net_num}.txt"
+        file_name = f"data/test/{network_gen}/newick/tree_set_newick{tree_info}_{net_num}.txt"
 
     file = open(file_name, "w+")
     for tree in tree_set.values():
