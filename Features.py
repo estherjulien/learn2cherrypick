@@ -233,7 +233,7 @@ class Features:
 
     def update_data(self, new_cherries):
         # self.data = self.data.append(pd.DataFrame(index=new_cherries))
-        self.data = pd.concat([self.data, pd.DataFrame(index=new_cherries, dtype=float)])
+        self.data = pd.concat([self.data, pd.DataFrame(index=list(new_cherries), dtype=float)])
         # LEAF PAIRS
         self.data[self.leaf_pair.name] = self.leaf_pair.data_column
         # TRIVIAL

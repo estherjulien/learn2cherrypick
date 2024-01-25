@@ -11,9 +11,9 @@ Code for training a random forest for predicting cherries
 
 def train_cherries_rf(X, Y, name=None):
     if name is None:
-        model_name = f"../data/RFModels/rf_cherries.joblib"
+        model_name = f"data/RFModels/rf_cherries.joblib"
     else:
-        model_name = f"../data/RFModels/rf_cherries_{name}.joblib"
+        model_name = f"data/RFModels/rf_cherries_{name}.joblib"
 
     # split data in train and validation
     X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.1)

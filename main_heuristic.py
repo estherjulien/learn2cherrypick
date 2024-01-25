@@ -32,7 +32,6 @@ maxL: maximum number of leaves per network for training ML model
 EXAMPLE: 
 python main_heuristic.py 0 20 10 50 0 0 0 (100) (50) 0
 '''
-# todo: check which network is updated
 
 
 def run_heuristic(tree_set=None, tree_set_newick=None, inst_num=0, repeats=1, time_limit=None,
@@ -172,7 +171,7 @@ def run_main(i, l, network_type, ret=None, forest_size=None, feat_imp_heur=False
         pick_random=True,
         relabel=False,
         full_leaf_set=full_leaf_set,
-        progress=progress)
+        progress=False)
 
     for r, ret in ret_score.items():
         score.loc[i, "RetNum", r]["Rand"] = copy.copy(ret)
@@ -190,7 +189,7 @@ def run_main(i, l, network_type, ret=None, forest_size=None, feat_imp_heur=False
         relabel=True,
         problem_type="TrivialRand",
         full_leaf_set=full_leaf_set,
-        progress=progress)
+        progress=False)
 
     for r, ret in ret_score.items():
         score.loc[i, "RetNum", r]["TrivialRand"] = copy.copy(ret)
@@ -230,18 +229,14 @@ def run_main(i, l, network_type, ret=None, forest_size=None, feat_imp_heur=False
 
     # print results
     if progress:
-        mean_Rand = np.round(score.loc[:, "RetNum", :]["Rand"].mean(), 2)
-        quant_Rand = np.round(score.loc[:, "RetNum", :]["Rand"].quantile(0.9), 2)
-        mean_TrivialRand = np.round(score.loc[:, "RetNum", :]["TrivialRand"].mean(), 2)
-        quant_TrivialRand = np.round(score.loc[:, "RetNum", :]["TrivialRand"].quantile(0.9), 2)
         print()
         print("FINAL RESULTS\n"
               f"Instance = {i} \n"
               "RETICULATIONS\n"
               f"ML            = {ml_ret}\n"
               f"TrivialML     = {ml_triv_ret}\n"
-              f"Rand          = [{ra_ret}, {mean_Rand}, {quant_Rand}]\n"
-              f"TrivialRand   = [{tr_ret}, {mean_TrivialRand}, {quant_TrivialRand}]\n"
+              f"Rand          = {ra_ret}\n"
+              f"TrivialRand   = {tr_ret}\n"
               f"FeatImp       = {fi_ret}\n"
               f"Reference     = {ub_ret}\n"
               f"ML time       = {np.round(ml_time, 2)}s\n"
@@ -319,5 +314,5 @@ if __name__ == "__main__":
         full_leaf_set = True
 
     run_main(i, L, network_type, ret, forest_size, ml_name=ml_name, full_leaf_set=full_leaf_set, ml_thresh=None,
-             progress=False, file_name=file_name, feat_imp_heur=False)
+             progress=True, file_name=file_name, feat_imp_heur=False)
 

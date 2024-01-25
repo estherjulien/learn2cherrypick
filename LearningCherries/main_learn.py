@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     print(f"Start {data_set_string}")
     output_list = []
-    with open(f"TrainDataLGT/ML_tree_data_maxL{max_l}_{network_type}_{N}_debugged.pickle", "rb") as handle:
+    with open(f"data/train/ML_tree_data_maxL{max_l}_{network_type}_{N}.pickle", "rb") as handle:
         output_list.append(pickle.load(handle))
 
     # Clean data by deleting bad data points
@@ -87,4 +87,4 @@ if __name__ == "__main__":
                                                                                                              name=data_set_string)
     print(f"RF train duration (normal): {np.round(time.time() - start_time, 3)}s")
     metadata["train_dur"] = time.time() - start_time
-    metadata.to_pickle(f"../data/RFModels/model_metadata_{data_set_string}_debugged.pickle")
+    metadata.to_pickle(f"data/RFModels/model_metadata_{data_set_string}_debugged.pickle")
