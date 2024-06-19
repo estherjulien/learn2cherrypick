@@ -5,6 +5,7 @@ from NetworkGen.ZODS_network import birth_hyb
 from NetworkGen.tree_to_newick import *
 
 from joblib import Parallel, delayed
+from argparse import ArgumentParser
 from datetime import datetime
 import pandas as pd
 import numpy as np
@@ -89,13 +90,12 @@ def make_test_normal(net_num, l, ret, missing_leaves=0, print_failed=False):
     os.makedirs(f"data/test/{save_map}/instances", exist_ok=True)
 
     with open(
-            f"AMBCode/Data/Test/{save_map}/instances/tree_data{tree_info}_{net_num}.pickle", "wb") as handle:
+            f"data/test/{save_map}/instances/tree_data{tree_info}_{net_num}.pickle", "wb") as handle:
         pickle.dump(output, handle)
 
     now = datetime.now().time()
     print(f"JOB {net_num} ({now}): FINISHED in {np.round(time.time() - st, 3)}s (Normal, L = {num_leaves}, "
           f"R = {ret_num}, n = {n})")
-    return None
 
 
 def make_test_lgt(net_num, l, ret, num_trees, missing_leaves, print_failed=False):
@@ -166,7 +166,6 @@ def make_test_lgt(net_num, l, ret, num_trees, missing_leaves, print_failed=False
     now = datetime.now().time()
     print(f"JOB {net_num} ({now}): FINISHED in {np.round(time.time() - st, 3)}s (LGT, L = {num_leaves}, "
           f"R = {ret_num}, T = {num_trees}, n = {n})")
-    return None
 
 
 def make_test_zods(net_num, l, ret, num_trees, missing_leaves, print_failed=False):
@@ -228,30 +227,51 @@ def make_test_zods(net_num, l, ret, num_trees, missing_leaves, print_failed=Fals
     now = datetime.now().time()
     print(f"JOB {net_num} ({now}): FINISHED in {np.round(time.time() - st, 3)}s (ZODS, L = {num_leaves}, "
           f"R = {ret_num}, T = {num_trees})")
-    return None
 
 
 if __name__ == "__main__":
-    num_instances = int(sys.argv[1])
-    normal = int(sys.argv[2])
-    lgt = int(sys.argv[3])
-    missing_leaves = int(sys.argv[4])
+    parser = ArgumentParser()
+    parser.add_argument('--num_instances', type=int, default=1)
+    parser.add_argument('--network_type', type=str, default="lgt", choices=["normal", "lgt", "zods"])
+    parser.add_argument('--num_leaves', type=int, default=20)
+    parser.add_argument('--num_rets', type=int, default=5)
+    parser.add_argument('--num_trees', type=int, default=20)
 
-    if normal:
-        Parallel(n_jobs=-1)(delayed(make_test_normal)(i, l, ret, missing_leaves)
-                            for i in np.arange(num_instances)
-                            for l in [20, 50, 100]
-                            for ret in [5, 6, 7])
-    elif lgt:
-        Parallel(n_jobs=-1)(delayed(make_test_lgt)(i, l, ret, num_trees, missing_leaves)
-                            for i in np.arange(num_instances)
-                            for l in [20, 50, 100]
-                            for ret in [10, 20, 30]
-                            for num_trees in [20, 50, 100])
-    else:
-        Parallel(n_jobs=-1)(delayed(make_test_zods)(i, l, ret, num_trees, missing_leaves)
-                            for i in np.arange(num_instances)
-                            for l in [20, 50, 100]
-                            for ret in [10, 20, 30]
-                            for num_trees in [20, 50, 100])
+    parser.add_argument('--missing_leaves', type=int, default=0)
+    args = parser.parse_args()
+
+    if args.network_type == "normal":
+        Parallel(n_jobs=-1)(delayed(make_test_normal)(i, args.num_leaves, args.num_rets, args.missing_leaves)
+                            for i in range(args.num_instances))
+    elif args.network_type == "lgt":
+        Parallel(n_jobs=-1)(delayed(make_test_lgt)(i, args.num_leaves, args.num_rets, args.num_trees, args.missing_leaves)
+                            for i in range(args.num_instances))
+    elif args.network_type == "zods":
+        Parallel(n_jobs=-1)(delayed(make_test_zods)(i, args.num_leaves, args.num_rets, args.num_trees, args.missing_leaves)
+                            for i in range(args.num_instances))
+
+
+# if __name__ == "__main__":
+#     num_instances = int(sys.argv[1])
+#     normal = int(sys.argv[2])
+#     lgt = int(sys.argv[3])
+#     missing_leaves = int(sys.argv[4])
+#
+#     if normal:
+#         Parallel(n_jobs=-1)(delayed(make_test_normal)(i, l, ret, missing_leaves)
+#                             for i in np.arange(num_instances)
+#                             for l in [20, 50, 100]
+#                             for ret in [5, 6, 7])
+#     elif lgt:
+#         Parallel(n_jobs=-1)(delayed(make_test_lgt)(i, l, ret, num_trees, missing_leaves)
+#                             for i in np.arange(num_instances)
+#                             for l in [20, 50, 100]
+#                             for ret in [10, 20, 30]
+#                             for num_trees in [20, 50, 100])
+#     else:
+#         Parallel(n_jobs=-1)(delayed(make_test_zods)(i, l, ret, num_trees, missing_leaves)
+#                             for i in np.arange(num_instances)
+#                             for l in [20, 50, 100]
+#                             for ret in [10, 20, 30]
+#                             for num_trees in [20, 50, 100])
 
