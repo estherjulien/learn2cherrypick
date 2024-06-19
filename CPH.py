@@ -325,7 +325,7 @@ class Input_Set:
 
     def CPHeuristic(self, progress=False, pick_triv=True, pick_ml=False,
                     pick_ml_triv=False, model_name=None, pick_random=False, pick_feat_imp=False, relabel=False,
-                    ml_thresh=None, problem_type=None, first_cherry=None, seed=1):
+                    ml_thresh=None, problem_type=None, seed=1):
         self.rng = np.random.RandomState(seed)
         # Works in a copy of the input trees, copy_of_inputs, because trees have to be reduced somewhere.
         copy_of_inputs = deepcopy(self)
@@ -354,10 +354,6 @@ class Input_Set:
                     f"Instance {self.instance} {problem_type}: Initial features found in {np.round(time.time() - start_time_init, 3)}s")
         else:
             df_pred = None
-
-        if first_cherry is not None:
-            # pick first cherry
-            pass
 
         # START ALGORITHM
         while copy_of_inputs.trees:
