@@ -285,7 +285,8 @@ class Input_Set:
                                                     model_name=model_name,
                                                     relabel=relabel,
                                                     ml_thresh=ml_thresh,
-                                                    problem_type=problem_type)
+                                                    problem_type=problem_type,
+                                                    seed=i)
             if progress:
                 print(f"Instance {self.instance} {problem_type}: found sequence of length: {len(new)}")
             # COMPLETE PARTIAL SEQUENCE
@@ -324,7 +325,8 @@ class Input_Set:
 
     def CPHeuristic(self, progress=False, pick_triv=True, pick_ml=False,
                     pick_ml_triv=False, model_name=None, pick_random=False, pick_feat_imp=False, relabel=False,
-                    ml_thresh=None, problem_type=None):
+                    ml_thresh=None, problem_type=None, first_cherry=None, seed=1):
+        self.rng = np.random.RandomState(seed)
         # Works in a copy of the input trees, copy_of_inputs, because trees have to be reduced somewhere.
         copy_of_inputs = deepcopy(self)
         CPS = []
@@ -353,6 +355,10 @@ class Input_Set:
         else:
             df_pred = None
 
+        if first_cherry is not None:
+            # pick first cherry
+            pass
+
         # START ALGORITHM
         while copy_of_inputs.trees:
             triv_picked = False
@@ -363,7 +369,7 @@ class Input_Set:
                 trivial_slice = features.data["trivial"] == 1
                 if trivial_slice.any():       # find trivial cherry
                     triv_cherries = list(features.data.loc[trivial_slice].index)
-                    triv_cherry_num = np.random.choice(np.arange(len(triv_cherries)))
+                    triv_cherry_num = self.rng.choice(np.arange(len(triv_cherries)))
                     chosen_cherry = triv_cherries[triv_cherry_num]
                     if features.data.loc[chosen_cherry]["cherry_in_tree"] < 1:
                         triv_picked = True
@@ -383,7 +389,7 @@ class Input_Set:
                 chosen_cherry_prob = prediction.loc[chosen_cherry, 1] + prediction.loc[chosen_cherry, 2]
 
                 if ml_thresh is not None and chosen_cherry_prob < ml_thresh:
-                    random_cherry_num = np.random.choice(len(reducible_pairs))
+                    random_cherry_num = self.rng.choice(len(reducible_pairs))
                     chosen_cherry = list(reducible_pairs)[random_cherry_num]
 
                 df_pred.loc[len(df_pred)] = [*chosen_cherry, *prediction.loc[chosen_cherry], np.nan]
@@ -399,7 +405,7 @@ class Input_Set:
                     pick_random = False
 
             if pick_random:
-                random_cherry_num = np.random.choice(len(reducible_pairs))
+                random_cherry_num = self.rng.choice(len(reducible_pairs))
                 chosen_cherry = list(reducible_pairs)[random_cherry_num]
 
             if pick_feat_imp:
@@ -407,7 +413,7 @@ class Input_Set:
                 trivial_slice = features.data["trivial"] == 1
                 if trivial_slice.any():       # find trivial cherry
                     candidate_cherries = features.data.loc[trivial_slice].index
-                    random_cherry_num = np.random.choice(len(candidate_cherries))
+                    random_cherry_num = self.rng.choice(len(candidate_cherries))
                     chosen_cherry = list(candidate_cherries)[random_cherry_num]
                 else:
                     candidate_cherries = list(reducible_pairs)
@@ -602,10 +608,10 @@ class Input_Set:
                 trivial_cherries.append(c)
 
         if trivial_in_all_cherries:
-            chosen_cherry = trivial_in_all_cherries[np.random.choice(len(trivial_in_all_cherries))]
+            chosen_cherry = trivial_in_all_cherries[self.rng.choice(len(trivial_in_all_cherries))]
             triv_picked = False
         elif trivial_cherries:
-            chosen_cherry = trivial_cherries[np.random.choice(len(trivial_cherries))]
+            chosen_cherry = trivial_cherries[self.rng.choice(len(trivial_cherries))]
             triv_picked = True
         else:
             chosen_cherry = None
